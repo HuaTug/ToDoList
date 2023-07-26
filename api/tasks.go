@@ -20,42 +20,51 @@ func CreateTask(c *gin.Context) {
 	}
 }
 
-/*
 // ListTasks @Tags TASK
 
 func ListTasks(c *gin.Context) {
-	listService := service.ListTasksService{}
-	chaim, _ := utils.ParseToken(c.GetHeader("Authorization"))
+	var listService service.ListTasksService
+	claim, _ := utils.ParseToken(c.GetHeader("Authorization"))
 	if err := c.ShouldBind(&listService); err == nil {
-		res := listService.List(chaim.Id)
+		res := listService.List(claim.Id)
 		c.JSON(200, res)
 	} else {
-		c.JSON(400, err)
+		c.JSON(400, ErrorResponse(err))
 	}
 }
 
 // ShowTask @Tags TASK
 
 func ShowTask(c *gin.Context) {
-	showTaskService := service.ShowTaskService{}
-	res := showTaskService.Show(c.Param("id"))
-	c.JSON(200, res)
+	var ShowTask service.ShowTaskService
+	if err := c.ShouldBind(&ShowTask); err == nil {
+		res := ShowTask.Show(c.Param("id"))
+		c.JSON(200, res)
+	} else {
+		c.JSON(400, ErrorResponse(err))
+	}
+
 }
 
 // DeleteTask @Tags TASK
 
 func DeleteTask(c *gin.Context) {
-	deleteTaskService := service.DeleteTaskService{}
-	res := deleteTaskService.Delete(c.Param("id"))
-	c.JSON(200, res)
+	var deleteTask service.DeleteTaskService
+	if err := c.ShouldBind(&deleteTask); err == nil {
+		res := deleteTask.Delete(c.Param("id"))
+		c.JSON(200, res)
+	} else {
+		c.JSON(400, ErrorResponse(err))
+	}
+
 }
 
 // UpdateTask @Tags TASK
 
 func UpdateTask(c *gin.Context) {
-	updateTaskService := service.UpdateTaskService{}
-	if err := c.ShouldBind(&updateTaskService); err == nil {
-		res := updateTaskService.Update(c.Param("id"))
+	var UpDateTaskService service.UpdateTaskService
+	if err := c.ShouldBind(&UpDateTaskService); err == nil {
+		res := UpDateTaskService.Update(c.Param("id"))
 		c.JSON(200, res)
 	} else {
 		c.JSON(400, err)
@@ -66,7 +75,7 @@ func UpdateTask(c *gin.Context) {
 // SearchTasks @Tags TASK
 
 func SearchTasks(c *gin.Context) {
-	searchTaskService := service.SearchTaskService{}
+	var searchTaskService service.SearchTaskService
 	chaim, _ := utils.ParseToken(c.GetHeader("Authorization"))
 	if err := c.ShouldBind(&searchTaskService); err == nil {
 		res := searchTaskService.Search(chaim.Id)
@@ -75,4 +84,3 @@ func SearchTasks(c *gin.Context) {
 		c.JSON(400, err)
 	}
 }
-*/
